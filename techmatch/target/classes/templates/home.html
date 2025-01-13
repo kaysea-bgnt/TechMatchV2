@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechMatch Events</title>
+    <link rel="stylesheet" href="/home.css">
+</head>
+<body>
+    <header class="header">
+        <div class="logo">TechMatch</div>
+        <div class="search-bar">
+            <input type="text" placeholder="Search...">
+        </div>
+        <div class="nav-items">
+            <button>All Events</button>
+            <button class="primary">+ Create Event</button>
+        </div>
+    </header>
+
+    <nav class="categories">
+        <div class="category">Academics</div>
+        <div class="category">Blockchain</div>
+        <div class="category">Career and Professional Development</div>
+        <div class="category">Cloud Computing and Infrastructure</div>
+        <div class="category">Cybersecurity</div>
+    </nav>
+
+    <main class="main-content">
+        <div class="events-grid">
+            <div class="event-card">
+                <div class="event-image">
+                    <div class="event-status status-register">Register</div>
+                </div>
+                <div class="event-details">
+                    <div class="event-title">Year End Party 2024</div>
+                    <div class="event-info">Thurs, Dec 12, 9:00 AM</div>
+                    <div class="event-info">Anthropic Century Pacific Tower</div>
+                </div>
+            </div>
+            <!-- Repeat event-card div for other events -->
+        </div>
+
+        <aside>
+            <div class="calendar">
+                <div class="calendar-header">
+                    <div class="month-year">
+                        <select class="month-dropdown" id="monthSelect">
+                            <option value="0">January</option>
+                            <option value="1">February</option>
+                            <option value="2">March</option>
+                            <option value="3">April</option>
+                            <option value="4">May</option>
+                            <option value="5">June</option>
+                            <option value="6">July</option>
+                            <option value="7">August</option>
+                            <option value="8">September</option>
+                            <option value="9">October</option>
+                            <option value="10">November</option>
+                            <option value="11">December</option>
+                        </select>
+                        <input type="number" class="year-input" id="yearInput" min="1900" max="2100">
+                    </div>
+                    <div class="calendar-nav">
+                        <span id="prevMonth">←</span>
+                        <span id="nextMonth">→</span>
+                    </div>
+                </div>
+                <div class="calendar-grid" id="calendarGrid">
+                    <!-- Calendar will be populated by JavaScript -->
+                </div>
+            </div>
+
+            <div class="filters">
+                <select class="filter-dropdown" id="eventTypeDropdown">
+                    <option value="">Event Type</option>
+                    <option value="hackathon">Hackathon</option>
+                    <option value="networking">Networking</option>
+                    <option value="talks">Talks</option>
+                    <option value="seminars">Seminars</option>
+                    <option value="study-session">Study Session</option>
+                    <option value="webinar">Webinar</option>
+                    <option value="workshops">Workshops</option>
+                </select>
+                <button id="resetButton" class="reset-button">Reset</button>
+            </div>
+        </aside>
+    </main>
+
+    <script>
+        class Calendar {
+            constructor() {
+                this.date = new Date();
+                this.selectedDate = null;
+
+                this.monthSelect = document.getElementById('monthSelect');
+                this.yearInput = document.getElementById('yearInput');
+                this.calendarGrid = document.getElementById('calendarGrid');
+                this.resetButton = document.getElementById('resetButton');
+                this.eventTypeDropdown = document.getElementById('eventTypeDropdown');
+
+                this.init();
+                this.setupEventListeners();
+            }
+
+            init() {
+                this.monthSelect.value = this.date.getMonth();
+                this.yearInput.value = this.date.getFullYear();
+                this.renderCalendar();
+            }
+
+            setupEventListeners() {
+                this.monthSelect.addEventListener('change', () => {
+                    this.date.setMonth(parseInt(this.monthSelect.value));
+                    this.renderCalendar();
+                });
+
+                this.yearInput.addEventListener('change', () => {
+                    this.date.setFullYear(parseInt(this.yearInput.value));
+                    this.renderCalendar();
+                });
+
+                document.getElementById('prevMonth').addEventListener('click', () => {
+                    this.date.setMonth(this.date.getMonth() - 1);
+                    this.updateDisplay();
+                });
+
+                document.getElementById('nextMonth').addEventListener('click', () => {
+                    this.date.setMonth(this.date.getMonth() + 1);
+                    this.updateDisplay();
+                });
+
+                this.resetButton.addEventListener('click', () => {
+                    this.date = new Date(); // Reset to today
+                    this.selectedDate = null; // Clear selection
+                    this.updateDisplay();
+                });
+
+                this.eventTypeDropdown.addEventListener('change', () => {
+                    const selectedEventType = this.eventTypeDropdown.value;
+                    console.log('Selected Event Type:', selectedEventType);
+                });
+            }
+
+            updateDisplay() {
+                this.monthSelect.value = this.date.getMonth();
+                this.yearInput.value = this.date.getFullYear();
+                this.renderCalendar();
+            }
+
+            renderCalendar() {
+                const year = this.date.getFullYear();
+                const month = this.date.getMonth();
+
+                const firstDay = new Date(year, month, 1);
+                const lastDay = new Date(year, month + 1, 0);
+                const daysInMonth = lastDay.getDate();
+                const startingDay = firstDay.getDay();
+
+                // Clear previous calendar
+                this.calendarGrid.innerHTML = '';
+
+                // Add day headers
+                const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+                days.forEach(day => {
+                    const dayHeader = document.createElement('div');
+                    dayHeader.className = 'calendar-day header';
+                    dayHeader.textContent = day;
+                    this.calendarGrid.appendChild(dayHeader);
+                });
+
+                // Add empty cells for days before the first day of the month
+                for (let i = 0; i < startingDay; i++) {
+                    const prevMonthDay = new Date(year, month, 0 - (startingDay - i - 1));
+                    const dayElement = document.createElement('div');
+                    dayElement.className = 'calendar-day not-current-month';
+                    dayElement.textContent = prevMonthDay.getDate();
+                    this.calendarGrid.appendChild(dayElement);
+                }
+
+                // Add days of the current month
+                const today = new Date();
+                for (let i = 1; i <= daysInMonth; i++) {
+                    const dayElement = document.createElement('div');
+                    dayElement.className = 'calendar-day';
+
+                    if (
+                        year === today.getFullYear() &&
+                        month === today.getMonth() &&
+                        i === today.getDate()
+                    ) {
+                        dayElement.classList.add('today');
+                    }
+
+                    if (
+                        this.selectedDate &&
+                        year === this.selectedDate.getFullYear() &&
+                        month === this.selectedDate.getMonth() &&
+                        i === this.selectedDate.getDate()
+                    ) {
+                        dayElement.classList.add('selected');
+                    }
+
+                    dayElement.textContent = i;
+                    dayElement.addEventListener('click', () => {
+                        this.selectedDate = new Date(year, month, i);
+                        this.renderCalendar();
+                    });
+
+                    this.calendarGrid.appendChild(dayElement);
+                }
+
+                // Add empty cells for days after the last day of the month
+                const remainingDays = 42 - (startingDay + daysInMonth); // 42 = 6 rows × 7 days
+                for (let i = 1; i <= remainingDays; i++) {
+                    const dayElement = document.createElement('div');
+                    dayElement.className = 'calendar-day not-current-month';
+                    dayElement.textContent = i;
+                    this.calendarGrid.appendChild(dayElement);
+                }
+            }
+        }
+
+        // Initialize the calendar
+        const calendar = new Calendar();
+    </script>
+</body>
+</html>
