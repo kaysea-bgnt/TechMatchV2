@@ -68,4 +68,9 @@ public class sampleController {
         // Redirect to the users list
         return "redirect:/users";
     }
+
+    @GetMapping("/Popup")
+    public String showPopup(){
+        return "popup";
+    }
 }
