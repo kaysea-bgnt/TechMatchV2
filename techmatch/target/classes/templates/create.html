@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Event</title>
+</head>
+<body>
+    <h1>Create Event</h1>
+    <form id="eventForm" action="/events/create" method="POST"  enctype="multipart/form-data">
+        <label for="name">Event Name:</label>
+        <input type="text" id="name" name="name" required><br><br>
+
+        <div class="image-upload">
+            <label for="eventImage">Upload Event Image:</label>
+            <input type="file" id="eventImage" name="image" accept="image/*" required>
+        </div>
+        <br><br>
+
+        <label for="startDate">Start Date:</label>
+        <input type="date" id="startDate" name="startDate" required>
+        <label for="startTime">Start Time:</label>
+        <input type="time" id="startTime" name="startTime" required><br><br>
+
+        <label for="endDate">End Date:</label>
+        <input type="date" id="endDate" name="endDate" required>
+        <label for="endTime">End Time:</label>
+        <input type="time" id="endTime" name="endTime" required><br><br>
+
+        <label for="location">Location:</label>
+        <input type="text" id="location" name="location" required><br><br>
+
+        <label for="description">Description:</label><br>
+        <textarea id="description" name="description" required></textarea><br><br>
+
+        <label for="ticketType">Tickets:</label>
+        <select id="ticketType" name="ticketType" required>
+            <option value="Free">Free</option>
+            <option value="Paid">Paid</option>
+        </select><br><br>
+
+        <label for="requiresApproval">Requires Approval:</label>
+        <input type="checkbox" id="requiresApproval" name="requiresApproval"><br><br>
+
+        <label for="capacity">Capacity:</label>
+        <select id="capacity" name="capacity" required>
+            <option value="50">50</option>
+            <option value="100">100</option>
+            <option value="200">200</option>
+            <option value="Unlimited">Unlimited</option>
+        </select><br><br>
+
+        <label for="type">Type of Event:</label>
+        <select id="type" name="type" required>
+            <option value="Workshop">Workshop</option>
+            <option value="Hackathon">Hackathon</option>
+            <option value="Seminar">Seminar</option>
+            <option value="Webinar">Webinar</option>
+            <option value="Study Session">Study Session</option>
+            <option value="Networking Event">Networking Event</option>
+            <option value="Meetup">Meetup</option>
+            <option value="Tech Talks">Tech Talks</option>
+            
+
+        </select><br><br>
+
+        <label for="topics">Topics:</label><br>
+        <input type="checkbox" name="topics" value="AI ML"> AI ML<br>
+        <input type="checkbox" name="topics" value="Blockchain"> Blockchain<br>
+        <input type="checkbox" name="topics" value="Cybersecurity"> Cybersecurity<br>
+        <input type="checkbox" name="topics" value="Web Development"> Web Development<br><br>
+        <input type="checkbox" name="topics" value="Game Development"> Game Development<br>
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>

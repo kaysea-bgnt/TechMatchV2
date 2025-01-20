@@ -428,10 +428,10 @@
 </head>
 <body>
     <nav class="navbar">
-        <a href="#" class="logo">Tech<span>Match</span></a>
+        <a href="#" class="logo">TechMatch</a>
         <div class="nav-buttons">
             <button class="btn btn-outline" onclick="showEvents()">All Events</button>
-            <button class="btn btn-primary" onclick="showCreateEvent()">+ Create Event</button>
+            <button class="btn btn-primary" onclick="location.href='/create'">+ Create Event</button>
         </div>
     </nav>
 
@@ -447,78 +447,6 @@
 
         <div class="event-timeline">
             </div>
-    </div>
-
-    <div id="create-event-page" class="create-event-form" style="display: none;">
-        <div class="image-upload">
-            <span>Click to upload image</span>
-        </div>
-        <div class="form-content">
-            <div class="form-group">
-                <input type="text" placeholder="Event Name" required>
-            </div>
-            <div class="datetime-group">
-                <div class="form-group">
-                    <label>Start</label>
-                    <input type="datetime-local" required>
-                </div>
-                <div class="form-group">
-                    <label>End</label>
-                    <input type="datetime-local" required>
-                </div>
-            </div>
-            <div class="form-group">
-                <input type="text" placeholder="Add event location" required>
-            </div>
-            <div class="form-group">
-                <textarea rows="4" placeholder="Add Description" required></textarea>
-                <span id="word-count">0 / 500 words</span> <div id="word-count-message" style="color: red;"></div>
-            </div>
-            <div class="form-group">
-                <label>Event Type</label>
-                <select id="event-type" multiple>
-                    <option value="hackathon">Hackathons</option>
-                    <option value="networking">Networking Events</option>
-                    <option value="talk">Talks</option>
-                    <option value="seminar">Seminars</option>
-                    <option value="study-session">Study Sessions</option>
-                    <option value="webinar">Webinars</option>
-                    <option value="workshop">Workshops</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label>Topic</label>
-                <select id="event-topic" multiple>
-                    <option value="academics">Academics</option>
-                    <option value="blockchain">Blockchain</option>
-                    <option value="career-development">Career and Professional Development</option>
-                    <option value="cloud-computing">Cloud Computing and Infrastructure</option>
-                    <option value="cybersecurity">Cybersecurity and Networking</option>
-                    <option value="data-science">Data Science</option>
-                    <option value="game-development">Game Development</option>
-                    <option value="iot">Internet of Things (IoT)</option>
-                    <option value="product-management">Product and Project Management</option>
-                    <option value="programming">Programming and Development</option>
-                    <option value="tech-culture">Tech Culture and Social Impact</option>
-                    <option value="tools-frameworks">Tools and Frameworks</option>
-                    <option value="ui-ux">UI/UX</option>
-                </select>
-            </div>
-            <div class="event-options">
-                <div class="form-group">
-                    <label>Require Approval</label>
-                    <label class="toggle-switch">
-                        <input type="checkbox">
-                        <span class="slider"></span>
-                    </label>
-                </div>
-                <div class="form-group">
-                    <label>Capacity</label>
-                    <input type="number" placeholder="Unlimited" required>
-                </div>
-            </div>
-            <button class="btn btn-primary">Create Event</button>
-        </div>
     </div>
 
     <div id="event-modal" class="modal">
@@ -573,7 +501,7 @@
                 startTime: "10:00",
                 endTime: "18:00",
                 description: "Join us for the Tech Summit 2024, a virtual event bringing together industry leaders, innovators, and tech enthusiasts from around the globe. Explore the latest trends, challenges, and opportunities in the tech world through engaging keynote speeches, panel discussions, and interactive workshops.",
-                status: "pending",
+                status: "going",
                 type: "Public Event",
                 slots: 500,
                 image: "https://via.placeholder.com/80",

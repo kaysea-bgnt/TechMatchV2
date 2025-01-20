@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Event - TechMatch</title>
+    <link rel="stylesheet" href="CreateEvent.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Navigation Bar -->
+        <nav>
+            <header class="header">
+                <div class="logo">TechMatch</div>
+                <div class="search-bar">
+                    <input type="text" placeholder="Search...">
+                </div>
+                <div class="nav-items">
+                    <button class="AllEvents" onclick = "location.href='/Popup'">All Events</button>
+                    <button class="primary" onclick = "location.href='/CreateEvent'">+ Create Event</button>
+                </div>
+            </header>
+        </nav>
+
+        <!-- Event Creation Form -->
+        <form id="eventForm" class="event-form" action="/api/events/create" method="POST">
+            <!-- Image Upload and Event Details Section 
+            <div class="form-header">
+                <div class="image-upload">
+                    <input type="file" id="eventImage" accept="image/*" hidden required>
+                    <label for="eventImage" class="upload-area">
+                      <img src="CreateEventImage/image-icon.png" alt="Upload Image" class="camera-icon"> 
+                    </label>
+                  </div> -->
+
+                <!-- Event Topic and Type Selection -->
+                <div class="event-details">
+                    <!-- Topic Selection -->
+                    <div class="select-topic" required>
+                        <div class="custom-select">
+                            <div class="select-header">
+                                <span class="selected-text">Select Event Topic</span>
+                                <div class="selection-info">
+                                    <span class="selected-count"></span>
+                                    <span class="arrow-down">▼</span>
+                                </div>
+                            </div>
+                            <!-- Topic Options -->
+                            <div class="options-container" aria-required="true">
+                                <!-- Technology Topics -->
+                                <div class="option">
+                                    <input type="checkbox" id="ai-ml" value="ai-ml" name="topics">
+                                    <label for="ai-ml">AI/ML</label>
+                                </div>
+                                <div class="option">
+                                    <input type="checkbox" id="blockchain" value="blockchain" name="topics">
+                                    <label for="blockchain">Blockchain</label>
+                                </div>
+                                <div class="option">
+                                    <input type="checkbox" id="career-development" value="career-development" name="topics">
+                                    <label for="career-development">Career Development</label>
+                                </div>
+                                <div class="option">
+                                    <input type="checkbox" id="cloud-computing" value="cloud-computing" name="topics">
+                                    <label for="cloud-computing">Cloud Computing</label>
+                                </div>
+                                <div class="option">
+                                    <input type="checkbox" id="cybersecurity" value="cybersecurity" name="topics">
+                                    <label for="cybersecurity">Cybersecurity</label>
+                                </div>
+                                <div class="option">
+                                    <input type="checkbox" id="data-science" value="data-science" name="topics">
+                                    <label for="data-science">Data Science</label>
+                                </div>
+                                <div class="option">
+                                    <input type="checkbox" id="analytics" value="analytics" name="topics">
+                                    <label for="analytics">Analytics</label>
+                                </div>
+                                <div class="option">
+                                    <input type="checkbox" id="game-dev" value="game-dev" name="topics">
+                                    <label for="game-dev">Game Dev</label>
+                                </div>
+                                <div class="option">
+                                    <input type="checkbox" id="iot" value="iot" name="topics">
+                                    <label for="iot">IoT</label>
+                                </div>
+                                <div class="option">
+                                    <input type="checkbox" id="mobile-app" value="mobile-app" name="topics">
+                                    <label for="mobile-app">Mobile App</label>
+                                </div>
+                                <div class="option">
+                                    <input type="checkbox" id="programming" value="programming" name="topics">
+                                    <label for="programming">Programming Language</label>
+                                </div>
+                                <div class="option">
+                                    <input type="checkbox" id="software-dev" value="software-dev" name="topics">
+                                    <label for="software-dev">Software Development</label>
+                                </div>
+                                <div class="option">
+                                    <input type="checkbox" id="tech-culture" value="tech-culture" name="topics">
+                                    <label for="tech-culture">Tech Culture</label>
+                                </div>
+                                <div class="option">
+                                    <input type="checkbox" id="tools-tech" value="tools-tech" name="topics">
+                                    <label for="tools-tech">Tools and Technologies</label>
+                                </div>
+                                <div class="option">
+                                    <input type="checkbox" id="ui-ux" value="ui-ux" name="topics">
+                                    <label for="ui-ux">UI/UX Design</label>
+                                </div>
+                                <div class="option">
+                                    <input type="checkbox" id="web-dev" value="web-dev" name="topics">
+                                    <label for="web-dev">Web Dev</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Event Type Selection -->
+                    <div class="event-type-wrapper" required>
+                        <div class="custom-select">
+                            <div class="select-header">
+                                <span class="selected-text">Select Event Type</span>
+                                <span class="arrow-down">▼</span>
+                            </div>
+                            <!-- Event Type Options -->
+                            <div class="options-container" aria-required="true">
+                                <!-- Event Types -->
+                                <div class="option">
+                                    <input type="radio" name="eventType" id="workshops" value="workshops">
+                                    <label for="workshops">Workshops</label>
+                                </div>
+                                <div class="option">
+                                    <input type="radio" name="eventType" id="hackathons" value="hackathons">
+                                    <label for="hackathons">Hackathons</label>
+                                </div>
+                                <div class="option">
+                                    <input type="radio" name="eventType" id="seminars" value="seminars">
+                                    <label for="seminars">Seminars</label>
+                                </div>
+                                <div class="option">
+                                    <input type="radio" name="eventType" id="webinars" value="webinars">
+                                    <label for="webinars">Webinars</label>
+                                </div>
+                                <div class="option">
+                                    <input type="radio" name="eventType" id="study-sessions" value="study-sessions">
+                                    <label for="study-sessions">Study Sessions</label>
+                                </div>
+                                <div class="option">
+                                    <input type="radio" name="eventType" id="networking-events" value="networking-events">
+                                    <label for="networking-events">Networking Events</label>
+                                </div>
+                                <div class="option">
+                                    <input type="radio" name="eventType" id="tech-talks" value="tech-talks">
+                                    <label for="tech-talks">Tech Talks</label>
+                                </div>
+                                <div class="option">
+                                    <input type="radio" name="eventType" id="competitions" value="competitions">
+                                    <label for="competitions">Competitions</label>
+                                </div>
+                                <div class="option">
+                                    <input type="radio" name="eventType" id="panel-discussions" value="panel-discussions">
+                                    <label for="panel-discussions">Panel Discussions</label>
+                                </div>
+                                <div class="option">
+                                    <input type="radio" name="eventType" id="career-fairs" value="career-fairs">
+                                    <label for="career-fairs">Career Fairs</label>
+                                </div>
+                                <div class="option">
+                                    <input type="radio" name="eventType" id="showcases" value="showcases">
+                                    <label for="showcases">Showcases</label>
+                                </div>
+                                <div class="option">
+                                    <input type="radio" name="eventType" id="mentorship-programs" value="mentorship-programs">
+                                    <label for="mentorship-programs">Mentorship Programs</label>
+                                </div>
+                                <div class="option">
+                                    <input type="radio" name="eventType" id="technical-demonstrations" value="technical-demonstrations">
+                                    <label for="technical-demonstrations">Technical Demonstrations</label>
+                                </div>
+                                <div class="option">
+                                    <input type="radio" name="eventType" id="bootcamps" value="bootcamps">
+                                    <label for="bootcamps">Bootcamps</label>
+                                </div>
+                                <div class="option">
+                                    <input type="radio" name="eventType" id="social-events" value="social-events">
+                                    <label for="social-events">Social Events</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Form Content Section -->
+            <div class="form-content">
+                <!-- Event Name -->
+                <input 
+                    type="text" 
+                    id="eventName" 
+                    name="name"
+                    placeholder="Event Name" 
+                    class="event-title"
+                    required
+                >
+
+                <!-- Date and Time Section -->
+                <div class="datetime-section">
+                    <!-- Start Date/Time -->
+                    <div class="time-group">
+                        <div class="start-left">
+                            <div class="dot filled"></div>
+                            <span>Start</span>
+                        </div>
+                        <div class="start-right">
+                            <input type="date" id="startDate" name = "startDate" class="datetime-input" required>
+                            <input type="time" id="startTime" name="startTime" class="datetime-input" required>
+                        </div>
+                    </div>
+                    
+                    <!-- End Date/Time -->
+                    <div class="time-group">
+                        <div class="end-left">
+                            <div class="dot"></div>
+                            <span>End</span>
+                        </div>
+                        <div class="end-right">
+                            <input type="date" id="endDate" name="endDate" class="datetime-input" required>
+                            <input type="time" id="endTime" name ="endTime"class="datetime-input" required>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Location Section -->
+                <div class="location-section">
+                    <h3>Add Event Location</h3>
+                    <input 
+                        type="text" 
+                        class="location-input"
+                        name = "location"
+                        placeholder="Offline Location or virtual link"
+                        required
+                    >
+                </div>
+
+                <!-- Description Section -->
+                <div class="location-section">
+                    <textarea 
+                        class="event-textarea" 
+                        name="description"
+                        placeholder="Add Description"
+                        required
+                    ></textarea>
+                </div>
+
+                <!-- Event Options Section -->
+                <div class="event-options">
+                    <h2 class="event-options-title">Event Options</h2>
+                    <div class="event-options-container">
+                        <div class="option-row">
+                            <span>Tickets</span>
+                            <span id="ticketType" name = "ticketType" class="ticketType">Free</span>
+                        </div>
+                        <div class="option-row">
+                            <span>Require Approval</span>
+                            <label class="toggle-switch">
+                                <input type="checkbox" class="toggle-input">
+                                <span class="   toggle-slider"></span>
+                            </label>
+                        </div>
+                        <div class="capacity-option-row">
+                            
+                            <!-- Modal for Custom Capacity Input -->
+                            <div id="customCapacityModal" class="modal" style="display: none;">
+                                <div class="modal-content">
+                                    <span class="close-button">&times;</span>
+                                    <h3>Enter Custom Capacity</h3>
+                                    <input type="number" id="customCapacityInput" placeholder="Enter custom capacity" />
+                                    <button id="confirmCustomCapacity">Confirm</button>
+                                </div>
+                            </div>
+                            <span>Capacity</span>
+                            <div class="capacity-right">
+                                <select id="eventCapacity" name="capacity" class="capacity-dropdown">
+                                    <option value="0">Unlimited</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                    <option value="500">500</option>
+                                    <option value="custom">Other</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="submit-btn" >Create Event</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Scripts -->
+    <script src="Create.js"></script>
+
+</body>
+</html>

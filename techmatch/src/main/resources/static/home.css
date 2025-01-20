@@ -272,3 +272,27 @@ body {
 .reset-button:hover {
     background-color: #e66a00;
 }
+
+.card {
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+.card-body {
+    padding: 15px;
+}
+.card-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+.card-footer {
+    background-color: #f8f9fa;
+    text-align: center;
+}
+.card-img-top {
+    height: 250px;
+    object-fit: cover;
+}
+
+
