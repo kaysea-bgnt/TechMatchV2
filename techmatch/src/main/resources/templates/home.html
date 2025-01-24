@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechMatch Events</title>
+    <!-- Correct Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!--<link rel="stylesheet" href="/home.css">!-->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+        
+        body {
+            background: #1a1a1a;
+            color: white;
+        }
+        
+        .header {
+            background: #222;
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #333;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        
+        .logo span {
+            color: #ffa500;
+        }
+        
+        .search-bar {
+            flex: 1;
+            max-width: 500px;
+            margin: 0 2rem;
+        }
+        
+        .search-bar input {
+            width: 100%;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            border: none;
+            background: #333;
+            color: white;
+        }
+        
+        .nav-items {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+        
+        .nav-items button {
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            border: none;
+            background: #333;
+            color: white;
+            cursor: pointer;
+        }
+        
+        .nav-items button.primary {
+            background: #ffa500;
+            color: black;
+        }
+        
+        .categories {
+            padding: 1rem 2rem;
+            display: flex;
+            gap: 1rem;
+            border-bottom: 1px solid #333;
+            overflow-x: auto;
+        }
+        
+        .category {
+            padding: 0.5rem 1rem;
+            background: #333;
+            border-radius: 4px;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+        
+        .category:hover {
+            background: #444;
+        }
+        
+        .main-content {
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: 3fr 1fr;
+            gap: 2rem;
+        }
+        
+        .events-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .event-card {
+            background: #222;
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .event-image {
+            height: 150px;
+            background: linear-gradient(45deg, #ff4e50, #f9d423);
+            position: relative;
+        }
+        
+        .event-status {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            font-size: 0.875rem;
+        }
+        
+        .status-register {
+            background: white;
+            color: black;
+        }
+        
+        .status-going {
+            background: #4CAF50;
+            color: white;
+        }
+        
+        .status-pending {
+            background: #FFA500;
+            color: white;
+        }
+        
+        .event-details {
+            padding: 1rem;
+        }
+        
+        .event-title {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .event-info {
+            font-size: 0.875rem;
+            color: #999;
+        }
+        
+        .calendar {
+            background: #222;
+            padding: 1.5rem;
+            border-radius: 8px;
+        }
+        
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .calendar-nav {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .calendar-nav span {
+            cursor: pointer;
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+        
+        .calendar-nav span:hover {
+            background: #333;
+        }
+        
+        .month-year {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .month-dropdown, .year-input {
+            background: #333;
+            color: white;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .month-dropdown:focus, .year-input:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px #ffa500;
+        }
+        
+        .year-input {
+            width: 70px;
+            text-align: center;
+        }
+        
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 0.5rem;
+            text-align: center;
+        }
+        
+        .calendar-day {
+            padding: 0.5rem;
+            border-radius: 4px;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .calendar-day:not(.header):not(.not-current-month):hover {
+            background: #333;
+        }
+        
+        .calendar-day.selected {
+            background: #ffa500;
+            color: black;
+        }
+        
+        .calendar-day.today {
+            border: 1px solid #ffa500;
+        }
+        
+        .calendar-day.not-current-month {
+            color: #666;
+        }
+        
+        .filters {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        
+        .filter-dropdown {
+            padding: 10px;
+            font-size: 1rem;
+            background-color: #222;
+            color: white;
+            border: 1px solid #444;
+            border-radius: 5px;
+            outline: none;
+            cursor: pointer;
+            width: 150px;
+        }
+        
+        .filter-dropdown option {
+            background-color: #222;
+            color: white;
+        }
+        
+        .reset-button {
+            padding: 10px 20px;
+            font-size: 1rem;
+            background-color: #ff7a00;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        .reset-button:hover {
+            background-color: #e66a00;
+        }
+        
+        .card {
+            border: 1px solid #ddd;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .card-body {
+            padding: 15px;
+        }
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+        }
+        .card-footer {
+            background-color: #f8f9fa;
+            text-align: center;
+        }
+        .card-img-top {
+            height: 250px;
+            object-fit: cover;
+        }     
+    </style>
+</head>
+
+<body>
+    <header class="header">
+        <div class="logo">TechMatch</div>
+        <div class="search-bar">
+            <input type="text" placeholder="Search...">
+        </div>
+        <div class="nav-items">
+            <button class ="allEvent" onclick = "location.href='/popup'">All Events</button>
+            <button class="primary" onclick = "location.href='/create'">+ Create Event</button>
+        </div>
+    </header>
+
+    <nav class="categories">
+        <div class="category">Academics</div>
+        <div class="category">Blockchain</div>
+        <div class="category">Career and Professional Development</div>
+        <div class="category">Cloud Computing and Infrastructure</div>
+        <div class="category">Cybersecurity</div>
+    </nav>
+
+    <main class="main-content">
+        <div class="container mt-5">
+            <h1 class="mb-4">Events</h1>
+            <div class="row row-cols-1 row-cols-md-3 g-4">
+                <!-- Loop through events -->
+                <div class="col" th:each="event : ${events}">
+                    <div class="card h-100" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#eventModal" 
+                         th:attr="data-event-id=${event.id}">
+                        <img class="card-img-top img-fluid" th:src="'data:image/jpeg;base64,' + ${event.base64Image}" alt="Event Image">
+                        <div class="card-body">
+                            <h5 class="card-title" th:text="${event.name}">Event Name</h5>
+                            <h6 class="card-subtitle mb-2 text-muted" th:text="${event.startDate}">Event Date</h6>
+                            <p class="card-text" th:text="${event.topics}">Topics</p>
+                            <p class="card-text"><strong>Location:</strong> <span th:text="${event.location}">Event Location</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal Structure -->
+        <div class="modal fade" id="eventModal" tabindex="-1" aria-labelledby="eventModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="eventModalLabel">Event Details</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <h5 id="eventName"></h5>
+                        <p><strong>Date:</strong> <span id="eventDate"></span></p>
+                        <p><strong>Description:</strong> <span id="eventDescription"></span></p>
+                        <p><strong>Location:</strong> <span id="eventLocation"></span></p>
+                        <img id="eventImage" class="img-fluid" alt="Event Image">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <aside>
+            <div class="calendar">
+                <div class="calendar-header">
+                    <div class="month-year">
+                        <select class="month-dropdown" id="monthSelect">
+                            <option value="0">January</option>
+                            <option value="1">February</option>
+                            <option value="2">March</option>
+                            <option value="3">April</option>
+                            <option value="4">May</option>
+                            <option value="5">June</option>
+                            <option value="6">July</option>
+                            <option value="7">August</option>
+                            <option value="8">September</option>
+                            <option value="9">October</option>
+                            <option value="10">November</option>
+                            <option value="11">December</option>
+                        </select>
+                        <input type="number" class="year-input" id="yearInput" min="1900" max="2100">
+                    </div>
+                    <div class="calendar-nav">
+                        <span id="prevMonth">←</span>
+                        <span id="nextMonth">→</span>
+                    </div>
+                </div>
+                <div class="calendar-grid" id="calendarGrid">
+                    <!-- Calendar will be populated by JavaScript -->
+                </div>
+            </div>
+
+            <div class="filters">
+                <select class="filter-dropdown" id="eventTypeDropdown">
+                    <option value="">Event Type</option>
+                    <option value="hackathon">Hackathon</option>
+                    <option value="networking">Networking</option>
+                    <option value="talks">Talks</option>
+                    <option value="seminars">Seminars</option>
+                    <option value="study-session">Study Session</option>
+                    <option value="webinar">Webinar</option>
+                    <option value="workshops">Workshops</option>
+                </select>
+                <button id="resetButton" class="reset-button">Reset</button>
+            </div>
+        </aside>
+    </main>
+
+    <script>
+        class Calendar {
+            constructor() {
+                this.date = new Date();
+                this.selectedDate = null;
+
+                this.monthSelect = document.getElementById('monthSelect');
+                this.yearInput = document.getElementById('yearInput');
+                this.calendarGrid = document.getElementById('calendarGrid');
+                this.resetButton = document.getElementById('resetButton');
+                this.eventTypeDropdown = document.getElementById('eventTypeDropdown');
+
+                this.init();
+                this.setupEventListeners();
+            }
+
+            init() {
+                this.monthSelect.value = this.date.getMonth();
+                this.yearInput.value = this.date.getFullYear();
+                this.renderCalendar();
+            }
+
+            setupEventListeners() {
+                this.monthSelect.addEventListener('change', () => {
+                    this.date.setMonth(parseInt(this.monthSelect.value));
+                    this.renderCalendar();
+                });
+
+                this.yearInput.addEventListener('change', () => {
+                    this.date.setFullYear(parseInt(this.yearInput.value));
+                    this.renderCalendar();
+                });
+
+                document.getElementById('prevMonth').addEventListener('click', () => {
+                    this.date.setMonth(this.date.getMonth() - 1);
+                    this.updateDisplay();
+                });
+
+                document.getElementById('nextMonth').addEventListener('click', () => {
+                    this.date.setMonth(this.date.getMonth() + 1);
+                    this.updateDisplay();
+                });
+
+                this.resetButton.addEventListener('click', () => {
+                    this.date = new Date(); // Reset to today
+                    this.selectedDate = null; // Clear selection
+                    this.updateDisplay();
+                });
+
+                this.eventTypeDropdown.addEventListener('change', () => {
+                    const selectedEventType = this.eventTypeDropdown.value;
+                    console.log('Selected Event Type:', selectedEventType);
+                });
+            }
+
+            updateDisplay() {
+                this.monthSelect.value = this.date.getMonth();
+                this.yearInput.value = this.date.getFullYear();
+                this.renderCalendar();
+            }
+
+            renderCalendar() {
+                const year = this.date.getFullYear();
+                const month = this.date.getMonth();
+
+                const firstDay = new Date(year, month, 1);
+                const lastDay = new Date(year, month + 1, 0);
+                const daysInMonth = lastDay.getDate();
+                const startingDay = firstDay.getDay();
+
+                // Clear previous calendar
+                this.calendarGrid.innerHTML = '';
+
+                // Add day headers
+                const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+                days.forEach(day => {
+                    const dayHeader = document.createElement('div');
+                    dayHeader.className = 'calendar-day header';
+                    dayHeader.textContent = day;
+                    this.calendarGrid.appendChild(dayHeader);
+                });
+
+                // Add empty cells for days before the first day of the month
+                for (let i = 0; i < startingDay; i++) {
+                    const prevMonthDay = new Date(year, month, 0 - (startingDay - i - 1));
+                    const dayElement = document.createElement('div');
+                    dayElement.className = 'calendar-day not-current-month';
+                    dayElement.textContent = prevMonthDay.getDate();
+                    this.calendarGrid.appendChild(dayElement);
+                }
+
+                // Add days of the current month
+                const today = new Date();
+                for (let i = 1; i <= daysInMonth; i++) {
+                    const dayElement = document.createElement('div');
+                    dayElement.className = 'calendar-day';
+
+                    if (
+                        year === today.getFullYear() &&
+                        month === today.getMonth() &&
+                        i === today.getDate()
+                    ) {
+                        dayElement.classList.add('today');
+                    }
+
+                    if (
+                        this.selectedDate &&
+                        year === this.selectedDate.getFullYear() &&
+                        month === this.selectedDate.getMonth() &&
+                        i === this.selectedDate.getDate()
+                    ) {
+                        dayElement.classList.add('selected');
+                    }
+
+                    dayElement.textContent = i;
+                    dayElement.addEventListener('click', () => {
+                        this.selectedDate = new Date(year, month, i);
+                        this.renderCalendar();
+                    });
+
+                    this.calendarGrid.appendChild(dayElement);
+                }
+
+                // Add empty cells for days after the last day of the month
+                const remainingDays = 42 - (startingDay + daysInMonth); // 42 = 6 rows × 7 days
+                for (let i = 1; i <= remainingDays; i++) {
+                    const dayElement = document.createElement('div');
+                    dayElement.className = 'calendar-day not-current-month';
+                    dayElement.textContent = i;
+                    this.calendarGrid.appendChild(dayElement);
+                }
+            }
+        }
+
+        // Initialize the calendar
+        const calendar = new Calendar();
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const modal = new bootstrap.Modal(document.getElementById('eventModal'));
+    
+            document.querySelectorAll('.card').forEach(card => {
+                card.addEventListener('click', function () {
+                    const eventId = this.getAttribute('data-event-id');
+    
+                    fetch(`/events/${eventId}`)
+                        .then(response => response.json())
+                        .then(event => {
+                            document.getElementById('eventName').textContent = event.name;
+                            document.getElementById('eventDate').textContent = `${event.startDate} to ${event.endDate}`;
+                            document.getElementById('eventDescription').textContent = event.description;
+                            document.getElementById('eventLocation').textContent = event.location;
+    
+                            if (event.base64Image) {
+                                document.getElementById('eventImage').src = `data:image/jpeg;base64,${event.base64Image}`;
+                            } else {
+                                document.getElementById('eventImage').src = '/path/to/default/image.jpg'; // Optional placeholder
+                            }
+    
+                            modal.show();
+                        })
+                        .catch(error => console.error('Error fetching event details:', error));
+                });
+            });
+        });
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
