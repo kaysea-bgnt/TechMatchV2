@@ -1,31 +1,23 @@
 package appdev.com.techmatch.service;
 
+import org.springframework.stereotype.Service;
 import appdev.com.techmatch.model.Event;
 import appdev.com.techmatch.repository.EventRepository;
-import java.util.List;
-import java.util.Optional;
-
-import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @Service
-public class eventService {
-
-    private final EventRepository eventRepository;
-
-    public eventService(EventRepository eventRepository) {
-        this.eventRepository = eventRepository;
-    }
-
-    public List<Event> getAllEvents() {
-        return eventRepository.findAll();
-    }
+public class EventService {
+    @Autowired
+    private EventRepository eventRepository;
 
     public Event saveEvent(Event event) {
+        event.setEventID(generateCustomEventID());
         return eventRepository.save(event);
     }
 
-    public Optional<Event> getEventById(Long id) {
-        return eventRepository.findById(id);
+    private String generateCustomEventID() {
+        long count = eventRepository.count();
+        return String.format("EVENT-%05d", count + 1);
     }
     
 }
