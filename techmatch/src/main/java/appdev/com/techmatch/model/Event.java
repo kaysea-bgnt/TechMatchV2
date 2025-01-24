@@ -2,6 +2,8 @@ package appdev.com.techmatch.model;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Set;
+import java.util.HashSet;
 
 @Entity
 public class Event {
@@ -13,7 +15,6 @@ public class Event {
     private String description;
     private String location;
     private String eventType;
-    private String eventTopics; // Store topics as a comma-separated string
     private LocalDate startDate;
     private LocalDate endDate;
     private LocalTime startTime;
@@ -29,6 +30,17 @@ public class Event {
     @JoinColumn(name = "userID", nullable = false)
     private User user; // Foreign key to User table
 
+    @ManyToMany
+    @JoinTable(
+        name = "event_topics",
+        joinColumns = @JoinColumn(name = "eventID"),
+        inverseJoinColumns = @JoinColumn(name = "topicID")
+    )
+    private Set<Topic> topics = new HashSet<>();
+
+    public Set<Topic> getTopics() { return topics; }
+    public void setTopics(Set<Topic> topics) { this.topics = topics; }
+
     // Getters and Setters
     public String getEventID() { return eventID; }
     public void setEventID(String eventID) { this.eventID = eventID; }
@@ -40,8 +52,6 @@ public class Event {
     public void setLocation(String location) { this.location = location; }
     public String getEventType() { return eventType; }
     public void setEventType(String eventType) { this.eventType = eventType; }
-    public String getEventTopics() { return eventTopics; }
-    public void setEventTopics(String eventTopics) { this.eventTopics = eventTopics; }
     public LocalDate getStartDate() { return startDate; }
     public void setStartDate(LocalDate startDate) { this.startDate = startDate; }
     public LocalDate getEndDate() { return endDate; }
